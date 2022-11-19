@@ -9,6 +9,15 @@ var sequelize = new Sequelize('ovcjttwo', 'ovcjttwo', 'zepFz3dR8JsU2vaxnn3hA2Xi0
     query: { raw: true }
 });
 
+sequelize
+    .authenticate()
+    .then(function() {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(function(err) {
+        console.log('Unable to connect to the database:', err);
+    });
+
 var Category = sequelize.define('Category', {
     category: Sequelize.STRING
 });
@@ -26,7 +35,7 @@ Post.belongsTo(Category, {foreignKey: 'category'});
 
 module.exports.initialize = function () {
     return new Promise((resolve, reject) => {
-        sequelize.sync().then(() => {
+        sequelize.authenticate().then(() => {
             resolve('operation was a success');
         }).catch(() => {
             reject("unable to sync the database");
@@ -67,7 +76,7 @@ module.exports.getPostById = function(id){
 
 module.exports.getAllPosts = function(){
     return new Promise((resolve, reject) => {
-        sequelize.sync().then(() => {
+        sequelize.authenticate().then(() => {
             resolve(Post.findAll());
         }).catch((err) => {
             reject("no results returned.");
@@ -91,7 +100,7 @@ module.exports.getPostsByCategory = function(category){
 
 module.exports.addPost = function(postData){
     return new Promise((resolve, reject) => {
-        sequelize.sync().then(() => {
+        sequelize.authenticate().then(() => {
             for (let key in postData) {
                 if(postData[key] == ""){
                     postData[key] = null;
@@ -185,7 +194,7 @@ module.exports.getCategories = function(){
 
 module.exports.addCategory = function(categoryData) {
     return new Promise((resolve, reject) => {
-        sequelize.sync().then(() => {
+        sequelize.authenticate().then(() => {
             for(let x in categoryData){
                 if(categoryData[x] == "") {
                     categoryData[x] = null;

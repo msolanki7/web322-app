@@ -76,7 +76,7 @@ module.exports.getPostById = function(id){
 
 module.exports.getAllPosts = function(){
     return new Promise((resolve, reject) => {
-        sequelize.authenticate().then(() => {
+        sequelize.sync().then(() => {
             resolve(Post.findAll());
         }).catch((err) => {
             reject("no results returned.");
@@ -100,7 +100,7 @@ module.exports.getPostsByCategory = function(category){
 
 module.exports.addPost = function(postData){
     return new Promise((resolve, reject) => {
-        sequelize.authenticate().then(() => {
+        sequelize.sync().then(() => {
             for (let key in postData) {
                 if(postData[key] == ""){
                     postData[key] = null;
@@ -194,7 +194,7 @@ module.exports.getCategories = function(){
 
 module.exports.addCategory = function(categoryData) {
     return new Promise((resolve, reject) => {
-        sequelize.authenticate().then(() => {
+        sequelize.sync().then(() => {
             for(let x in categoryData){
                 if(categoryData[x] == "") {
                     categoryData[x] = null;
